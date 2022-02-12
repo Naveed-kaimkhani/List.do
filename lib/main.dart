@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'TO-Do',
+      title: 'List.do',
       debugShowCheckedModeBanner: false,
       theme:Themes.light,
       darkTheme: Themes.dark,
