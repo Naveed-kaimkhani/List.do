@@ -178,7 +178,6 @@ class _AddTaskState extends State<AddTask> {
 
   _Appbar(){
   return AppBar(
-   // backgroundColor: context.Themes.background,
     elevation: 0,
     leading:GestureDetector(
       child:Icon(Icons.arrow_back_ios,size: 25),
