@@ -1,8 +1,10 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do/AddTask.dart';
+import 'package:to_do/TaskTile.dart';
 import 'package:to_do/ThemeServices.dart';
 import 'package:to_do/Themes.dart';
 import 'package:to_do/taskController.dart';
@@ -45,25 +47,23 @@ _showTasks() {
       itemCount: _taskController.tasklist.length,
       itemBuilder: (_, index) {
         print(_taskController.tasklist.length);
-        return GestureDetector(
-          onTap:(){
-             _taskController.delete(_taskController.tasklist[index]);
-             _taskController.getTasks();
-             },
-          child: Container(
-            width: 100,
-            height: 50,
-            color: Colors.green,
-            margin: EdgeInsets.only(bottom: 10),
-            child: Text(
-              _taskController.tasklist[index].title.toString(),
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.red,
+        return AnimationConfiguration.staggeredList(
+            position: index,
+            child: SlideAnimation(
+              child: FadeInAnimation(
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        _taskController.delete(_taskController.tasklist[index]);
+                        _taskController.getTasks();
+                      },
+                      child: TaskTile(_taskController.tasklist[index]),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ),
-        );
+            ));
       },
     );
   }));
