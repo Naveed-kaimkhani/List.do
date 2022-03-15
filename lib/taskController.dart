@@ -4,12 +4,14 @@ import 'package:to_do/DbHelper.dart';
 import 'package:to_do/task.dart';
 
 class taskController extends GetxController{
-  static var tasklist=<task>[].obs;
   @override
   void onReady(){
     super.onReady();
   }
+     var tasklist=<task>[].obs;
+
   Future<int?> addTask({task? Task})async{
+    print("task length is "+tasklist.length.toString());
     return await DbHelper.insert(Task);
   }
   void getTasks()async{

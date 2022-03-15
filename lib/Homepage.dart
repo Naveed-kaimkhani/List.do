@@ -11,6 +11,7 @@ import 'package:to_do/widgets/Button.dart';
 
 import 'Themes.dart';
  DateTime selecteddate=DateTime.now();
+  var _taskController=Get.put(taskController());
 class Homepage extends StatefulWidget {
    Homepage({ Key? key }) : super(key: key);
   @override
@@ -18,7 +19,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  final _taskControl=Get.put(taskController());
+  //  final _taskController=Get.put(taskController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +27,7 @@ class _HomepageState extends State<Homepage> {
       body: Column(
         children: [
          _addTaskBar(),
-         _addDateBar(),
+         _addDateBar(), 
          _showTasks(),
         ],
       ),
@@ -34,12 +35,20 @@ class _HomepageState extends State<Homepage> {
   }
 }
 _showTasks(){
+  print("heyyyy");
   return Expanded(
     child: Obx((){
+      print("obx called");
+        
+ 
+        
+
+     // var _taskController;
       return   ListView.builder(
-        itemCount: taskController.tasklist.length,
-        itemBuilder: (context,index) {
-          print(taskController.tasklist.length);
+        itemCount:_taskController.tasklist.length,
+        itemBuilder: (_,context) {
+          print("in itembuider");          
+          print(_taskController.tasklist.length);
           return Container(
             width: 100,
             height: 50,
@@ -72,10 +81,15 @@ _addTaskBar(){
                       ]
                   ),
                 ),
-                Button(label: "+ Add Task"),
-              ],
-            ),
-          );
+                Button(label: "+ Add Task",ontap: () async{
+                  await Get.to(()=>AddTask());
+                  _taskController.getTasks();
+                }
+                ),]
+                ),
+              
+            );
+          
 }
 _addDateBar(){
   return Container(

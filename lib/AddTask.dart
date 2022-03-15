@@ -264,6 +264,7 @@ int? value = await _taskController.addTask(Task:   task(
   
   ));
   print("my id is $value"); 
+  print("task added");
 }
 }
 

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:to_do/AddTask.dart';
 import 'package:to_do/Themes.dart';
 class Button extends StatelessWidget {
   final String label;
-  const Button({ Key? key ,required this.label}) : super(key: key);
+  final Function()? ontap;
+  const Button({ Key? key ,required this.label,required this.ontap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap:navigate,
+      onTap:ontap,
       child: Container(
         width: 100,
         height: 50,
@@ -23,6 +22,3 @@ class Button extends StatelessWidget {
   }
 }
 
-navigate(){
-  Get.to(AddTask());
-}
