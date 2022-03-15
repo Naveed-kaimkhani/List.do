@@ -37,6 +37,12 @@ class DbHelper{
   }
   static Future<List<Map<String,dynamic>>> query()async{
     print("query function called");
-    return await db!.query(_tablename);
+    return await db!.query(_tablename);}
+  
+  static delete(task t)async{
+     await db!.delete(_tablename,where: 'id=?',whereArgs: [t.id]);
+     
   }
-} 
+  
+  
+  }

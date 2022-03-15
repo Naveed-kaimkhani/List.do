@@ -1,4 +1,3 @@
-
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,10 +9,12 @@ import 'package:to_do/taskController.dart';
 import 'package:to_do/widgets/Button.dart';
 
 import 'Themes.dart';
- DateTime selecteddate=DateTime.now();
-  var _taskController=Get.put(taskController());
+
+DateTime selecteddate = DateTime.now();
+var _taskController = Get.put(taskController());
+
 class Homepage extends StatefulWidget {
-   Homepage({ Key? key }) : super(key: key);
+  Homepage({Key? key}) : super(key: key);
   @override
   _HomepageState createState() => _HomepageState();
 }
@@ -26,114 +27,114 @@ class _HomepageState extends State<Homepage> {
       appBar: _Appbar(),
       body: Column(
         children: [
-         _addTaskBar(),
-         _addDateBar(), 
-         _showTasks(),
+          _addTaskBar(),
+          _addDateBar(),
+          SizedBox(
+            height: 10,
+          ),
+          _showTasks(),
         ],
       ),
-    ); 
+    );
   }
 }
-_showTasks(){
-  print("heyyyy");
-  return Expanded(
-    child: Obx((){
-      print("obx called");
-        
- 
-        
 
-     // var _taskController;
-      return   ListView.builder(
-        itemCount:_taskController.tasklist.length,
-        itemBuilder: (_,context) {
-          print("in itembuider");          
-          print(_taskController.tasklist.length);
-          return Container(
+_showTasks() {
+  return Expanded(child: Obx(() {
+    return ListView.builder(
+      itemCount: _taskController.tasklist.length,
+      itemBuilder: (_, index) {
+        print(_taskController.tasklist.length);
+        return GestureDetector(
+          onTap:(){
+             _taskController.delete(_taskController.tasklist[index]);
+             _taskController.getTasks();
+             },
+          child: Container(
             width: 100,
             height: 50,
             color: Colors.green,
             margin: EdgeInsets.only(bottom: 10),
-            
-          );
-        },
-      );
-     
-    })
+            child: Text(
+              _taskController.tasklist[index].title.toString(),
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.red,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }));
+}
 
-    
+_addTaskBar() {
+  return Container(
+    margin: EdgeInsets.only(right: 20, left: 20, top: 10),
+    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Container(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            DateFormat.yMMMMd().format(DateTime.now()),
+            style: subHeadingStyle,
+          ),
+          Text("Today", style: HeadingStyle)
+        ]),
+      ),
+      Button(
+          label: "+ Add Task",
+          ontap: () async {
+            await Get.to(() => AddTask());
+            _taskController.getTasks();
+          }),
+    ]),
   );
 }
-_addTaskBar(){
-  return  Container(
-            margin: EdgeInsets.only(right: 20,left: 20,top: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                            Text(DateFormat.yMMMMd().format(DateTime.now()),
-                            style: subHeadingStyle,
-                            ),
-                            Text("Today",style:HeadingStyle)
-                      ]
-                  ),
-                ),
-                Button(label: "+ Add Task",ontap: () async{
-                  await Get.to(()=>AddTask());
-                  _taskController.getTasks();
-                }
-                ),]
-                ),
-              
-            );
-          
-}
-_addDateBar(){
+
+_addDateBar() {
   return Container(
-           margin: EdgeInsets.only(top: 20,left: 20),
-           child: DatePicker(
-             DateTime.now(),
-             height: 100,
-             width: 80,
-             initialSelectedDate: DateTime.now(),
-             selectionColor: bluish,
-             selectedTextColor: Colors.white,
-             dateTextStyle: TextStyle(
-               fontSize: 20,
-               fontWeight: FontWeight.w600,
-             ),
-            monthTextStyle: TextStyle(
-               fontSize: 14,
-               fontWeight: FontWeight.w600,
-             ),
-               dayTextStyle: TextStyle(
-               fontSize: 16,
-               fontWeight: FontWeight.w600,
-             ),
-              onDateChange: (date){
-                selecteddate=date;
-              },
-            ),
-         );
+    margin: EdgeInsets.only(top: 20, left: 20),
+    child: DatePicker(
+      DateTime.now(),
+      height: 100,
+      width: 80,
+      initialSelectedDate: DateTime.now(),
+      selectionColor: bluish,
+      selectedTextColor: Colors.white,
+      dateTextStyle: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+      monthTextStyle: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+      ),
+      dayTextStyle: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+      ),
+      onDateChange: (date) {
+        selecteddate = date;
+      },
+    ),
+  );
 }
-_Appbar(){
+
+_Appbar() {
   return AppBar(
     //backgroundColor:c,
     elevation: 0,
-    leading:GestureDetector(
-      child:Icon(Get.isDarkMode?Icons.wb_sunny_outlined:Icons.nightlight_round,
-      size: 25),
-      onTap: (){
-       ThemeServices().SwitchTheme();
+    leading: GestureDetector(
+      child: Icon(
+          Get.isDarkMode ? Icons.wb_sunny_outlined : Icons.nightlight_round,
+          size: 25),
+      onTap: () {
+        ThemeServices().SwitchTheme();
       },
     ),
     actions: [
-      Icon(Icons.person,size: 25),
+      Icon(Icons.person, size: 25),
     ],
-
   );
-  
 }
