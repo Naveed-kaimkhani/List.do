@@ -7,6 +7,7 @@ import 'package:to_do/AddTask.dart';
 import 'package:to_do/TaskTile.dart';
 import 'package:to_do/ThemeServices.dart';
 import 'package:to_do/Themes.dart';
+import 'package:to_do/task.dart';
 import 'package:to_do/taskController.dart';
 import 'package:to_do/widgets/Button.dart';
 
@@ -34,41 +35,90 @@ class _HomepageState extends State<Homepage> {
           SizedBox(
             height: 10,
           ),
-          _showTasks(),
+          // _showTasks(),
+          Expanded(child: Obx(() {
+            return ListView.builder(
+              itemCount: _taskController.tasklist.length,
+              itemBuilder: (_, index) {
+                print(_taskController.tasklist.length);
+                return AnimationConfiguration.staggeredList(
+                    position: index,
+                    child: SlideAnimation(
+                      child: FadeInAnimation(
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _showBottomSheet(
+                                    context, _taskController.tasklist[index]);
+                              },
+                              child: TaskTile(_taskController.tasklist[index]),
+                            )
+                          ],
+                        ),
+                      ),
+                    ));
+              },
+            );
+          })),
         ],
       ),
     );
   }
 }
 
-_showTasks() {
-  return Expanded(child: Obx(() {
-    return ListView.builder(
-      itemCount: _taskController.tasklist.length,
-      itemBuilder: (_, index) {
-        print(_taskController.tasklist.length);
-        return AnimationConfiguration.staggeredList(
-            position: index,
-            child: SlideAnimation(
-              child: FadeInAnimation(
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        _taskController.delete(_taskController.tasklist[index]);
-                        _taskController.getTasks();
-                      },
-                      child: TaskTile(_taskController.tasklist[index]),
-                    )
-                  ],
-                ),
-              ),
-            ));
-      },
-    );
-  }));
+_showBottomSheet(BuildContext context, task taskk) {
+  Get.bottomSheet(
+    Container(
+      padding: EdgeInsets.only(top: 4),
+      height: taskk.isCompleted == 1
+          ? MediaQuery.of(context).size.height * 0.24
+          : MediaQuery.of(context).size.height * 0.32,
+      color: Get.isDarkMode ? Colors.black : Colors.white,
+      child: Column(
+        children: [
+          Container(
+            height: 6,
+            width: 120,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Get.isDarkMode ? Colors.black : Colors.white,
+            ),
+          ),
+          taskk.isCompleted == 1
+              ? Container()
+              : _BottomSheetButton(label: "Task Completed", ontap:()=>Get.back(), clr: Colors.green,context: context)
+        ],
+      ),
+    ),
+  );
 }
 
+_BottomSheetButton({
+  required String label,
+  required Function() ontap,
+  required Color clr,
+  bool isClose = false,
+  required BuildContext context,
+}) {
+  return GestureDetector(
+    onTap:ontap,
+    child: Container(
+      margin:EdgeInsets.symmetric(vertical: 4),
+      height: 55,
+      width: MediaQuery.of(context).size.width*0.9,
+      color: isClose==true?Colors.red:clr,
+    decoration: BoxDecoration(
+      border: Border.all(
+        width:2,
+        color: isClose==true?Colors.red:clr
+        ),
+        borderRadius: BorderRadius.circular(20),
+      )
+    ),
+    );
+    
+}
 _addTaskBar() {
   return Container(
     margin: EdgeInsets.only(right: 20, left: 20, top: 10),
