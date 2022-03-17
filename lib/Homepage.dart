@@ -40,6 +40,7 @@ class _HomepageState extends State<Homepage> {
             return ListView.builder(
               itemCount: _taskController.tasklist.length,
               itemBuilder: (_, index) {
+                task taskk=_taskController.tasklist[index];
                 print(_taskController.tasklist.length);
                 return AnimationConfiguration.staggeredList(
                     position: index,
@@ -77,6 +78,7 @@ _showBottomSheet(BuildContext context, task taskk) {
       color: Get.isDarkMode ? Colors.black : Colors.white,
       child: Column(
         children: [
+          Spacer(),
           Container(
             height: 6,
             width: 120,
@@ -87,7 +89,31 @@ _showBottomSheet(BuildContext context, task taskk) {
           ),
           taskk.isCompleted == 1
               ? Container()
-              : _BottomSheetButton(label: "Task Completed", ontap:()=>Get.back(), clr: Colors.green,context: context)
+              : _BottomSheetButton(
+                  label: "Task Completed",
+                  ontap: () {
+                    _taskController.markedCompleted(taskk.id!);
+                    Get.back();
+                  },
+                  clr: bluish,
+                  context: context),
+          _BottomSheetButton(
+              label: "Delete Task",
+              ontap: () {
+                _taskController.delete(taskk);
+                Get.back();
+              },
+              clr: Colors.red,
+              context: context),
+         SizedBox(height: 7),
+          _BottomSheetButton(
+              label: "Cancel",
+              ontap: () {
+                Get.back();
+              },
+              clr: Colors.blueGrey,
+              context: context),
+         // Padding(padding: EdgeInsets.only(bottom: 10))
         ],
       ),
     ),
@@ -102,23 +128,25 @@ _BottomSheetButton({
   required BuildContext context,
 }) {
   return GestureDetector(
-    onTap:ontap,
+    onTap: ontap,
     child: Container(
-      margin:EdgeInsets.symmetric(vertical: 4),
+      margin: EdgeInsets.symmetric(vertical: 4),
       height: 55,
-      width: MediaQuery.of(context).size.width*0.9,
-      color: isClose==true?Colors.red:clr,
-    decoration: BoxDecoration(
-      border: Border.all(
-        width:2,
-        color: isClose==true?Colors.red:clr
-        ),
+      width: MediaQuery.of(context).size.width * 0.9,
+      decoration: BoxDecoration(
+        border: Border.all(width: 2, color: isClose == true ? Colors.red : clr),
         borderRadius: BorderRadius.circular(20),
-      )
+        color: isClose == true ? Colors.red : clr,
+      ),
+      child: Center(
+          child: Text(
+        label,
+        style: TextStyle(color: Colors.white, fontSize: 18),
+      )),
     ),
-    );
-    
+  );
 }
+
 _addTaskBar() {
   return Container(
     margin: EdgeInsets.only(right: 20, left: 20, top: 10),

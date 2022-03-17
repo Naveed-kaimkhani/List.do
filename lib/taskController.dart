@@ -2,7 +2,7 @@
 import 'package:get/state_manager.dart';
 import 'package:to_do/DbHelper.dart';
 import 'package:to_do/task.dart';
-
+import 'package:to_do/taskController.dart';
 class taskController extends GetxController{
   @override
   void onReady(){
@@ -21,7 +21,14 @@ class taskController extends GetxController{
 }
 
   void delete(task t)async{
+
     DbHelper.delete(t);
- 
+ getTasks();
+  }
+
+  
+  void markedCompleted(int id)async{
+   await DbHelper.update(id);
+ getTasks();
   }
 }
