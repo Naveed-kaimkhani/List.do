@@ -31,8 +31,38 @@ class _HomepageState extends State<Homepage> {
       body: Column(
         children: [
           _addTaskBar(),
-          _addDateBar(),
-          SizedBox(
+          Container(
+    margin: EdgeInsets.only(top: 20, left: 20),
+    child: DatePicker(
+      DateTime.now(),
+      height: 100,
+      width: 80,
+      initialSelectedDate: DateTime.now(),
+      selectionColor: bluish,
+      selectedTextColor: Colors.white,
+      dateTextStyle: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+      monthTextStyle: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+      ),
+      dayTextStyle: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+      ),
+      onDateChange: (date) {
+setState((){
+          selecteddate = date;
+
+});
+
+   },
+    ),
+        
+  ),
+         SizedBox(
             height: 10,
           ),
           // _showTasks(),
@@ -42,7 +72,9 @@ class _HomepageState extends State<Homepage> {
               itemBuilder: (_, index) {
                 task taskk=_taskController.tasklist[index];
                 print(_taskController.tasklist.length);
-                return AnimationConfiguration.staggeredList(
+                
+                if (taskk.repeat=='daily') {
+                  return AnimationConfiguration.staggeredList(
                     position: index,
                     child: SlideAnimation(
                       child: FadeInAnimation(
@@ -59,7 +91,32 @@ class _HomepageState extends State<Homepage> {
                         ),
                       ),
                     ));
+                }
+                if (taskk.date==DateFormat.yMd().format(selecteddate)) {
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    child: SlideAnimation(
+                      child: FadeInAnimation(
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _showBottomSheet(
+                                    context, _taskController.tasklist[index]);
+                              },
+                              child: TaskTile(_taskController.tasklist[index]),
+                            )
+                          ],
+                        ),
+                      ),
+                    ));
+                    
+                }
+              else{
+                return Container();
+              }
               },
+              
             );
           })),
         ],
@@ -170,34 +227,38 @@ _addTaskBar() {
   );
 }
 
-_addDateBar() {
-  return Container(
-    margin: EdgeInsets.only(top: 20, left: 20),
-    child: DatePicker(
-      DateTime.now(),
-      height: 100,
-      width: 80,
-      initialSelectedDate: DateTime.now(),
-      selectionColor: bluish,
-      selectedTextColor: Colors.white,
-      dateTextStyle: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
-      ),
-      monthTextStyle: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-      ),
-      dayTextStyle: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-      ),
-      onDateChange: (date) {
-        selecteddate = date;
-      },
-    ),
-  );
-}
+//_addDateBar() {
+//   return Container(
+//     margin: EdgeInsets.only(top: 20, left: 20),
+//     child: DatePicker(
+//       DateTime.now(),
+//       height: 100,
+//       width: 80,
+//       initialSelectedDate: DateTime.now(),
+//       selectionColor: bluish,
+//       selectedTextColor: Colors.white,
+//       dateTextStyle: TextStyle(
+//         fontSize: 20,
+//         fontWeight: FontWeight.w600,
+//       ),
+//       monthTextStyle: TextStyle(
+//         fontSize: 14,
+//         fontWeight: FontWeight.w600,
+//       ),
+//       dayTextStyle: TextStyle(
+//         fontSize: 16,
+//         fontWeight: FontWeight.w600,
+//       ),
+//       onDateChange: (date) {
+// setState((){
+//           selecteddate = date;
+
+// });
+
+//    },
+//     ),
+//   );
+// }
 
 _Appbar() {
   return AppBar(
