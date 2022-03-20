@@ -5,12 +5,13 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do/AddTask.dart';
 import 'package:to_do/TaskTile.dart';
-import 'package:to_do/ThemeServices.dart';
 import 'package:to_do/Themes.dart';
+import 'package:to_do/notification_services.dart';
 import 'package:to_do/task.dart';
 import 'package:to_do/taskController.dart';
 import 'package:to_do/widgets/Button.dart';
 
+import 'ThemeServices.dart';
 import 'Themes.dart';
 
 DateTime selecteddate = DateTime.now();
@@ -23,6 +24,16 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  var notifyHelper;
+  @override
+  void initState() {
+    super.initState();
+
+    notifyHelper=NotifiyHelper(); 
+    notifyHelper.initializeNotification();
+    notifyHelper.requestIOSPermissions();
+    
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,6 +133,28 @@ setState((){
       ),
     );
   }
+  
+_Appbar() {
+  return AppBar(
+    //backgroundColor:c,
+    elevation: 0,
+    leading: GestureDetector(
+      child: Icon(
+          Get.isDarkMode?Icons.wb_sunny_outlined:Icons.nightlight_round,
+          size: 25),
+      onTap: () {
+        ThemeServices().SwitchTheme();
+        notifyHelper.displayNotification(
+          title:"Theme Changed",
+          body: Get.isDarkMode?"Light mode activated":"Dark mode activated" );
+          notifyHelper.scheduledNotification();
+      },
+    ),
+    actions: [
+      Icon(Icons.person, size: 25),
+    ],
+  );
+}
 }
 
 _showBottomSheet(BuildContext context, task taskk) {
@@ -226,6 +259,7 @@ _addTaskBar() {
   );
 }
 
+
 //_addDateBar() {
 //   return Container(
 //     margin: EdgeInsets.only(top: 20, left: 20),
@@ -259,20 +293,3 @@ _addTaskBar() {
 //   );
 // }
 
-_Appbar() {
-  return AppBar(
-    //backgroundColor:c,
-    elevation: 0,
-    leading: GestureDetector(
-      child: Icon(
-          Get.isDarkMode ? Icons.wb_sunny_outlined : Icons.nightlight_round,
-          size: 25),
-      onTap: () {
-        ThemeServices().SwitchTheme();
-      },
-    ),
-    actions: [
-      Icon(Icons.person, size: 25),
-    ],
-  );
-}

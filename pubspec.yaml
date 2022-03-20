@@ -40,6 +40,9 @@ dependencies:
   date_picker_timeline:
   sqflite:
   flutter_staggered_animations:
+  flutter_local_notifications:
+  flutter_native_timezone:
+
 
 dev_dependencies:
   flutter_test:
