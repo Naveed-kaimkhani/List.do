@@ -34,7 +34,6 @@ class NotifiyHelper{
   }
    Future onDidReceiveLocalNotification(
       int? id, String? title, String? body, String? payload) async {
-    // display a dialog with the notification details, tap ok to go to another page
     Get.dialog(Text("wellcome to flutter"));
   }
   Future selectNotification(String? payload) async {

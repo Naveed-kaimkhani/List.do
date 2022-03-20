@@ -29,11 +29,11 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     super.initState();
 
-    notifyHelper=NotifiyHelper(); 
+    notifyHelper = NotifiyHelper();
     notifyHelper.initializeNotification();
     notifyHelper.requestIOSPermissions();
-    
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,119 +42,115 @@ class _HomepageState extends State<Homepage> {
         children: [
           _addTaskBar(),
           Container(
-    margin: EdgeInsets.only(top: 20, left: 20),
-    child: DatePicker(
-      DateTime.now(),
-      height: 100,
-      width: 80,
-      initialSelectedDate: DateTime.now(),
-      selectionColor: bluish,
-      selectedTextColor: Colors.white,
-      dateTextStyle: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
-      ),
-      monthTextStyle: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-      ),
-      dayTextStyle: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-      ),
-      onDateChange: (date) {
-setState((){
-          selecteddate = date;
-
-});
-
-   },
-    ),
-        
-  ),
-         SizedBox(
+            margin: EdgeInsets.only(top: 20, left: 20),
+            child: DatePicker(
+              DateTime.now(),
+              height: 100,
+              width: 80,
+              initialSelectedDate: DateTime.now(),
+              selectionColor: bluish,
+              selectedTextColor: Colors.white,
+              dateTextStyle: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+              monthTextStyle: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+              dayTextStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+              onDateChange: (date) {
+                setState(() {
+                  selecteddate = date;
+                });
+              },
+            ),
+          ),
+          SizedBox(
             height: 10,
           ),
-          // _showTasks(),
           Expanded(child: Obx(() {
             return ListView.builder(
               itemCount: _taskController.tasklist.length,
               itemBuilder: (_, index) {
-                task taskk=_taskController.tasklist[index];
+                task taskk = _taskController.tasklist[index];
                 print(_taskController.tasklist.length);
-                
-                if (taskk.repeat=='daily') {
+
+                if (taskk.repeat == 'daily') {
                   return AnimationConfiguration.staggeredList(
-                    position: index,
-                    child: SlideAnimation(
-                      child: FadeInAnimation(
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                _showBottomSheet(
-                                    context, _taskController.tasklist[index]);
-                              },
-                              child: TaskTile(_taskController.tasklist[index]),
-                            )
-                          ],
+                      position: index,
+                      child: SlideAnimation(
+                        child: FadeInAnimation(
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  _showBottomSheet(
+                                      context, _taskController.tasklist[index]);
+                                },
+                                child:
+                                    TaskTile(_taskController.tasklist[index]),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ));
+                      ));
                 }
-                if (taskk.date==DateFormat.yMd().format(selecteddate)) {
+                if (taskk.date == DateFormat.yMd().format(selecteddate)) {
                   return AnimationConfiguration.staggeredList(
-                    position: index,
-                    child: SlideAnimation(
-                      child: FadeInAnimation(
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                _showBottomSheet(
-                                    context, _taskController.tasklist[index]);
-                              },
-                              child: TaskTile(_taskController.tasklist[index]),
-                            )
-                          ],
+                      position: index,
+                      child: SlideAnimation(
+                        child: FadeInAnimation(
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  _showBottomSheet(
+                                      context, _taskController.tasklist[index]);
+                                },
+                                child:
+                                    TaskTile(_taskController.tasklist[index]),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ));
-                    
+                      ));
+                } else {
+                  return Container();
                 }
-              else{
-                return Container();
-              }
               },
-              
             );
           })),
         ],
       ),
     );
   }
-  
-_Appbar() {
-  return AppBar(
-    //backgroundColor:c,
-    elevation: 0,
-    leading: GestureDetector(
-      child: Icon(
-          Get.isDarkMode?Icons.wb_sunny_outlined:Icons.nightlight_round,
-          size: 25),
-      onTap: () {
-        ThemeServices().SwitchTheme();
-        notifyHelper.displayNotification(
-          title:"Theme Changed",
-          body: Get.isDarkMode?"Light mode activated":"Dark mode activated" );
+
+  _Appbar() {
+    return AppBar(
+      elevation: 0,
+      leading: GestureDetector(
+        child: Icon(
+            Get.isDarkMode ? Icons.wb_sunny_outlined : Icons.nightlight_round,
+            size: 25),
+        onTap: () {
+          ThemeServices().SwitchTheme();
+          notifyHelper.displayNotification(
+              title: "Theme Changed",
+              body: Get.isDarkMode
+                  ? "Light mode activated"
+                  : "Dark mode activated");
           notifyHelper.scheduledNotification();
-      },
-    ),
-    actions: [
-      Icon(Icons.person, size: 25),
-    ],
-  );
-}
+        },
+      ),
+      actions: [
+        Icon(Icons.person, size: 25),
+      ],
+    );
+  }
 }
 
 _showBottomSheet(BuildContext context, task taskk) {
@@ -194,7 +190,7 @@ _showBottomSheet(BuildContext context, task taskk) {
               },
               clr: Colors.red,
               context: context),
-         SizedBox(height: 7),
+          SizedBox(height: 7),
           _BottomSheetButton(
               label: "Cancel",
               ontap: () {
@@ -202,7 +198,7 @@ _showBottomSheet(BuildContext context, task taskk) {
               },
               clr: Colors.blueGrey,
               context: context),
-         // Padding(padding: EdgeInsets.only(bottom: 10))
+          // Padding(padding: EdgeInsets.only(bottom: 10))
         ],
       ),
     ),
