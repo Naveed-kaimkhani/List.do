@@ -80,6 +80,9 @@ class _HomepageState extends State<Homepage> {
                 print(_taskController.tasklist.length);
 
                 if (taskk.repeat == 'daily') {
+                  DateTime date=DateFormat.jm().parse(taskk.startTime.toString());
+                  var myTime=DateFormat("HH:mm").format(date);
+                  print(myTime);
                   return AnimationConfiguration.staggeredList(
                       position: index,
                       child: SlideAnimation(
