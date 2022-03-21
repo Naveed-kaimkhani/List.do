@@ -21,7 +21,6 @@ class InputField extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 16),
       child: Column(
-        //mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title,style: InputFieldStyle,),
