@@ -4,6 +4,7 @@ import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:to_do/notified_page.dart';
 import 'package:to_do/task.dart';
 class NotifiyHelper{
   FlutterLocalNotificationsPlugin
@@ -44,7 +45,7 @@ class NotifiyHelper{
     } else {
       print("Notification Done");
     }
-     Get.to(()=>Container(color:Colors.white,));
+     Get.to(()=>notified_page(label: payload,));
   }
 
  void requestIOSPermissions() {
@@ -75,9 +76,9 @@ class NotifiyHelper{
   }
      scheduledNotification(int hour , int mint , task taskk) async {
      await flutterLocalNotificationsPlugin.zonedSchedule(
-         0,
-         'scheduled title',
-         'theme changes 5 seconds ago',
+         taskk.id!.toInt(),
+         taskk.title,
+         taskk.note,
          _convertTime(hour, mint),
          const NotificationDetails(
              android: AndroidNotificationDetails('your channel id',
@@ -86,10 +87,11 @@ class NotifiyHelper{
          uiLocalNotificationDateInterpretation:
              UILocalNotificationDateInterpretation.absoluteTime,
              matchDateTimeComponents: DateTimeComponents.time,
+             payload: "{$taskk.title}|"+"{$taskk.note}|"
              );
 
    }
-   tz.TZDateTime _convertTime(int hour  , int mint){
+  tz.TZDateTime _convertTime(int hour  , int mint){
      final tz.TZDateTime now =tz.TZDateTime.now(tz.local);
      tz.TZDateTime scheduleDate=tz.TZDateTime(tz.local,now.year,now.month,now.day,hour ,mint);
     if (scheduleDate.isBefore(now)) {

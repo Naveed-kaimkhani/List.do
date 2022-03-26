@@ -30,7 +30,7 @@ class _HomepageState extends State<Homepage> {
     super.initState();
 
     notifyHelper = NotifiyHelper();
-    notifyHelper.initializeNotification();
+    notifyHelper.initializeNotification(); 
     notifyHelper.requestIOSPermissions();
   }
 
@@ -82,7 +82,11 @@ class _HomepageState extends State<Homepage> {
                 if (taskk.repeat == 'daily') {
                   DateTime date=DateFormat.jm().parse(taskk.startTime.toString());
                   var myTime=DateFormat("HH:mm").format(date);
-                  print(myTime);
+                  notifyHelper.scheduledNotification(
+                    int.parse(myTime.toString().split(":")[0]),
+                    int.parse(myTime.toString().split(":")[1]),
+                    taskk
+                  );
                   return AnimationConfiguration.staggeredList(
                       position: index,
                       child: SlideAnimation(
