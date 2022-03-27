@@ -30,7 +30,7 @@ class _HomepageState extends State<Homepage> {
     super.initState();
 
     notifyHelper = NotifiyHelper();
-    notifyHelper.initializeNotification(); 
+    notifyHelper.initializeNotification();
     notifyHelper.requestIOSPermissions();
   }
 
@@ -77,16 +77,18 @@ class _HomepageState extends State<Homepage> {
               itemCount: _taskController.tasklist.length,
               itemBuilder: (_, index) {
                 task taskk = _taskController.tasklist[index];
-                print(_taskController.tasklist.length);
-
+                //  print(_taskController.tasklist.length);
+                print(taskk);
+                print(int.parse(taskk.startTime.toString().split(":")[0]));
+                print(int.parse(taskk.toString().split(":")[1]));
                 if (taskk.repeat == 'daily') {
-                  DateTime date=DateFormat.jm().parse(taskk.startTime.toString());
-                  var myTime=DateFormat("HH:mm").format(date);
+                  DateTime date =
+                      DateFormat.jm().parse(taskk.startTime.toString());
+                  var myTime = DateFormat("HH:mm").format(date);
                   notifyHelper.scheduledNotification(
-                    int.parse(myTime.toString().split(":")[0]),
-                    int.parse(myTime.toString().split(":")[1]),
-                    taskk
-                  );
+                      int.parse(myTime.toString().split(":")[0]),
+                      int.parse(myTime.toString().split(":")[1]),
+                      taskk);
                   return AnimationConfiguration.staggeredList(
                       position: index,
                       child: SlideAnimation(

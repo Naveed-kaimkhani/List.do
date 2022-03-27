@@ -99,7 +99,7 @@ class NotifiyHelper{
     }
      return scheduleDate;
    }
-   _configureLocalTimeZone() async {
+  Future<void> _configureLocalTimeZone() async {
      tz.initializeTimeZones();
      final String timeZone = await FlutterNativeTimezone.getLocalTimezone();
      tz.setLocalLocation(tz.getLocation(timeZone));
