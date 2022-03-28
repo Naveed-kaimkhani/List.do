@@ -11,12 +11,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DbHelper.initDb();
   await GetStorage.init();             
-  runApp(const MyApp());
+  runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -26,6 +23,7 @@ class MyApp extends StatelessWidget {
       darkTheme: Themes.dark,
       themeMode: ThemeServices().theme ,
       home: Homepage(),
-    );
+    );  
   }
+
 }

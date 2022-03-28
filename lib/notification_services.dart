@@ -12,12 +12,13 @@ class NotifiyHelper{
       FlutterLocalNotificationsPlugin(); //
 
   initializeNotification() async {
+    print("in initialize noti func");
     _configureLocalTimeZone();
  final IOSInitializationSettings initializationSettingsIOS =
      IOSInitializationSettings(
-         requestSoundPermission: false,
-         requestBadgePermission: false,
-         requestAlertPermission: false,
+         requestSoundPermission: true,
+         requestBadgePermission: true,
+         requestAlertPermission: true,
          onDidReceiveLocalNotification: onDidReceiveLocalNotification,
      );
 
@@ -75,6 +76,7 @@ class NotifiyHelper{
     );
   }
      scheduledNotification(int hour , int mint , task taskk) async {
+       print("in schedule function");
      await flutterLocalNotificationsPlugin.zonedSchedule(
          taskk.id!.toInt(),
          taskk.title,
@@ -92,6 +94,7 @@ class NotifiyHelper{
 
    }
   tz.TZDateTime _convertTime(int hour  , int mint){
+    print("in convert time func");
      final tz.TZDateTime now =tz.TZDateTime.now(tz.local);
      tz.TZDateTime scheduleDate=tz.TZDateTime(tz.local,now.year,now.month,now.day,hour ,mint);
     if (scheduleDate.isBefore(now)) {
@@ -100,6 +103,7 @@ class NotifiyHelper{
      return scheduleDate;
    }
   Future<void> _configureLocalTimeZone() async {
+    print("in configure func");
      tz.initializeTimeZones();
      final String timeZone = await FlutterNativeTimezone.getLocalTimezone();
      tz.setLocalLocation(tz.getLocation(timeZone));

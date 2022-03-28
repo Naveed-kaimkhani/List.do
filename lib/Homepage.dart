@@ -77,11 +77,9 @@ class _HomepageState extends State<Homepage> {
               itemCount: _taskController.tasklist.length,
               itemBuilder: (_, index) {
                 task taskk = _taskController.tasklist[index];
-                //  print(_taskController.tasklist.length);
-                print(taskk);
-                print(int.parse(taskk.startTime.toString().split(":")[0]));
-                print(int.parse(taskk.toString().split(":")[1]));
-                if (taskk.repeat == 'daily') {
+                print(taskk.tojson());
+                if (taskk.repeat=='Daily') {
+                  print("checking for daily repeat");
                   DateTime date =
                       DateFormat.jm().parse(taskk.startTime.toString());
                   var myTime = DateFormat("HH:mm").format(date);
@@ -152,7 +150,7 @@ class _HomepageState extends State<Homepage> {
               body: Get.isDarkMode
                   ? "Light mode activated"
                   : "Dark mode activated");
-          notifyHelper.scheduledNotification();
+          //notifyHelper.scheduledNotification();
         },
       ),
       actions: [
