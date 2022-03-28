@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:to_do/DbHelper.dart';
+import 'package:to_do/Splash.dart';
 import 'package:to_do/ThemeServices.dart';
 
 import 'Homepage.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme:Themes.light,
       darkTheme: Themes.dark,
       themeMode: ThemeServices().theme ,
-      home: Homepage(),
+      home: Splash(),
     );  
   }
 

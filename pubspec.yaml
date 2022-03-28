@@ -42,6 +42,7 @@ dependencies:
   flutter_staggered_animations:
   flutter_local_notifications:
   flutter_native_timezone:
+  animated_splash_screen:
 
 
 dev_dependencies:
