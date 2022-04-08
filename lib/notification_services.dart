@@ -6,6 +6,7 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:to_do/notified_page.dart';
 import 'package:to_do/task.dart';
+import 'package:to_do/taskView.dart';
 
 class NotifiyHelper {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -43,9 +44,11 @@ class NotifiyHelper {
     if (payload == "Theme Changed") {
       print('noting to show');
     } else {
-      Get.to(() => notified_page(
-            label: payload,
-          ));
+      // Get.to(() => notified_page(
+      //       label: payload,
+      //     )
+      //     );
+      Get.to(() => taskView(taskk: payload ));
     }
   }
 
