@@ -43,6 +43,7 @@ dependencies:
   flutter_local_notifications:
   flutter_native_timezone:
   animated_splash_screen:
+  page_transition:
 
 
 dev_dependencies:

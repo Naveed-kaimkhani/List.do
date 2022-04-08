@@ -6,107 +6,110 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:to_do/notified_page.dart';
 import 'package:to_do/task.dart';
-class NotifiyHelper{
-  FlutterLocalNotificationsPlugin
-  flutterLocalNotificationsPlugin =
+
+class NotifiyHelper {
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin(); //
 
   initializeNotification() async {
     print("in initialize noti func");
     _configureLocalTimeZone();
- final IOSInitializationSettings initializationSettingsIOS =
-     IOSInitializationSettings(
-         requestSoundPermission: true,
-         requestBadgePermission: true,
-         requestAlertPermission: true,
-         onDidReceiveLocalNotification: onDidReceiveLocalNotification,
-     );
+    final IOSInitializationSettings initializationSettingsIOS =
+        IOSInitializationSettings(
+      requestSoundPermission: true,
+      requestBadgePermission: true,
+      requestAlertPermission: true,
+      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
+    );
 
-
- final AndroidInitializationSettings initializationSettingsAndroid =
-     AndroidInitializationSettings("mode");
+    final AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings("mode");
 
     final InitializationSettings initializationSettings =
         InitializationSettings(
-       iOS: initializationSettingsIOS,
-       android:initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+      android: initializationSettingsAndroid,
     );
-    await flutterLocalNotificationsPlugin.initialize(
-        initializationSettings,
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: selectNotification);
-
   }
-   Future onDidReceiveLocalNotification(
+
+  Future onDidReceiveLocalNotification(
       int? id, String? title, String? body, String? payload) async {
     Get.dialog(Text("wellcome to flutter"));
   }
+
   Future selectNotification(String? payload) async {
-    if (payload != null) {
-      print('notification payload: $payload');
+    if (payload == "Theme Changed") {
+      print('noting to show');
     } else {
-      print("Notification Done");
+      Get.to(() => notified_page(
+            label: payload,
+          ));
     }
-     Get.to(()=>notified_page(label: payload,));
   }
 
- void requestIOSPermissions() {
+  void requestIOSPermissions() {
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-        IOSFlutterLocalNotificationsPlugin>()
+            IOSFlutterLocalNotificationsPlugin>()
         ?.requestPermissions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   }
+
   displayNotification({required String title, required String body}) async {
     print("doing test");
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'your channel id','your channel name',
+        'your channel id', 'your channel name',
         importance: Importance.max, priority: Priority.high);
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
     var platformChannelSpecifics = new NotificationDetails(
-        android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
       0,
       title,
       body,
       platformChannelSpecifics,
-      payload: 'It could be anything you pass',
+      payload: title,
     );
   }
-     scheduledNotification(int hour , int mint , task taskk) async {
-       print("in schedule function");
-     await flutterLocalNotificationsPlugin.zonedSchedule(
-         taskk.id!.toInt(),
-         taskk.title,
-         taskk.note,
-         _convertTime(hour, mint),
-         const NotificationDetails(
-             android: AndroidNotificationDetails('your channel id',
-                 'your channel name')),
-         androidAllowWhileIdle: true,
-         uiLocalNotificationDateInterpretation:
-             UILocalNotificationDateInterpretation.absoluteTime,
-             matchDateTimeComponents: DateTimeComponents.time,
-             payload: "{$taskk.title}|"+"{$taskk.note}|"
-             );
 
-   }
-  tz.TZDateTime _convertTime(int hour  , int mint){
+  scheduledNotification(int hour, int mint, task taskk) async {
+    print("in schedule function");
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        taskk.id!.toInt(),
+        taskk.title,
+        taskk.note,
+        _convertTime(hour, mint),
+        const NotificationDetails(
+            android: AndroidNotificationDetails(
+                'your channel id', 'your channel name')),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time,
+        payload: "{$taskk.title}|" + "{$taskk.note}|");
+  }
+
+  tz.TZDateTime _convertTime(int hour, int mint) {
     print("in convert time func");
-     final tz.TZDateTime now =tz.TZDateTime.now(tz.local);
-     tz.TZDateTime scheduleDate=tz.TZDateTime(tz.local,now.year,now.month,now.day,hour ,mint);
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduleDate =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, mint);
     if (scheduleDate.isBefore(now)) {
-      scheduleDate=scheduleDate.add(const Duration(days: 1));
+      scheduleDate = scheduleDate.add(const Duration(days: 1));
     }
-     return scheduleDate;
-   }
+    return scheduleDate;
+  }
+
   Future<void> _configureLocalTimeZone() async {
     print("in configure func");
-     tz.initializeTimeZones();
-     final String timeZone = await FlutterNativeTimezone.getLocalTimezone();
-     tz.setLocalLocation(tz.getLocation(timeZone));
-
-   }
+    tz.initializeTimeZones();
+    final String timeZone = await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZone));
+  }
 }
