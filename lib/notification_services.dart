@@ -44,11 +44,11 @@ class NotifiyHelper {
     if (payload == "Theme Changed") {
       print('noting to show');
     } else {
-      // Get.to(() => notified_page(
-      //       label: payload,
-      //     )
-      //     );
-      Get.to(() => taskView(taskk: payload ));
+      Get.to(() => taskView(
+            taskk: payload,
+          )
+          );
+      //Get.to(() => taskView(taskk: payload ));
     }
   }
 
@@ -95,7 +95,7 @@ class NotifiyHelper {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time,
-        payload: "{$taskk.title}|" + "{$taskk.note}|");
+        payload: "${taskk.title}|" + "${taskk.note}|");
   }
 
   tz.TZDateTime _convertTime(int hour, int mint) {

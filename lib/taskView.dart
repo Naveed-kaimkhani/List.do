@@ -15,14 +15,15 @@ class taskView extends StatelessWidget {
       body: Center(
           child: Column(
         children: [
+          paddingOnly(top: 40),
           Text("Hellow, Naveed"),
           Text("You have a new Reminder"),
           SizedBox(
             height: 10,
           ),
           Container(
-            height: 50,
-            width: 30,
+            height: 400,
+            width: 300,
             decoration: BoxDecoration(
               color: bluish,
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -39,6 +40,7 @@ class taskView extends StatelessWidget {
 
   AppBar app_bar() {
     return AppBar(
+      
       title: Text(taskk!.split('|')[0]),
       leading: GestureDetector(
         child: Icon(Icons.arrow_left_rounded),
