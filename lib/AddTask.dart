@@ -229,6 +229,7 @@ class _AddTaskState extends State<AddTask> {
   _Appbar() {
     return AppBar(
       elevation: 0,
+      backgroundColor: bluish,
       leading: GestureDetector(
           child: Icon(Icons.arrow_back_ios, size: 25),
           onTap: () {
@@ -311,7 +312,6 @@ class _AddTaskState extends State<AddTask> {
       remind: remindme,
       repeat: Repeat,
     ));
-    print("my id is $value");
-    print("task added");
+
   }
 }

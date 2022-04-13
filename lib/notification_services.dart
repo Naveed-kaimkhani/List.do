@@ -4,7 +4,6 @@ import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:to_do/notified_page.dart';
 import 'package:to_do/task.dart';
 import 'package:to_do/taskView.dart';
 
@@ -41,14 +40,13 @@ class NotifiyHelper {
   }
 
   Future selectNotification(String? payload) async {
-    if (payload == "Theme Changed") {
+    if (payload=="Theme Changed") {
       print('noting to show');
     } else {
       Get.to(() => taskView(
             taskk: payload,
           )
           );
-      //Get.to(() => taskView(taskk: payload ));
     }
   }
 
@@ -82,7 +80,6 @@ class NotifiyHelper {
   }
 
   scheduledNotification(int hour, int mint, task taskk) async {
-    print("in schedule function");
     await flutterLocalNotificationsPlugin.zonedSchedule(
         taskk.id!.toInt(),
         taskk.title,
@@ -95,7 +92,9 @@ class NotifiyHelper {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time,
-        payload: "${taskk.title}|" + "${taskk.note}|");
+        payload: "${taskk.title}|" + "${taskk.note}|"+"${taskk.startTime.toString()}|"+"${taskk.endTime.toString()}|"
+        
+        );
   }
 
   tz.TZDateTime _convertTime(int hour, int mint) {

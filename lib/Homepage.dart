@@ -139,17 +139,19 @@ class _HomepageState extends State<Homepage> {
   _Appbar() {
     return AppBar(
       elevation: 0,
+      backgroundColor:bluish,
       leading: GestureDetector(
         child: Icon(
+           
             Get.isDarkMode ? Icons.wb_sunny_outlined : Icons.nightlight_round,
             size: 25),
         onTap: () {
           ThemeServices().SwitchTheme();
-          notifyHelper.displayNotification(
-              title: "Theme Changed",
-              body: Get.isDarkMode
-                  ? "Light mode activated"
-                  : "Dark mode activated");
+          // notifyHelper.displayNotification(
+          //     title: "Theme Changed",
+          //     body: Get.isDarkMode
+          //         ? "Light mode activated"
+          //         : "Dark mode activated");
           //notifyHelper.scheduledNotification();
         },
       ),
