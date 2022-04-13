@@ -12,7 +12,6 @@ class NotifiyHelper {
       FlutterLocalNotificationsPlugin(); //
 
   initializeNotification() async {
-    print("in initialize noti func");
     _configureLocalTimeZone();
     final IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(
@@ -23,7 +22,7 @@ class NotifiyHelper {
     );
 
     final AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings("mode");
+        AndroidInitializationSettings("a");
 
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -62,7 +61,6 @@ class NotifiyHelper {
   }
 
   displayNotification({required String title, required String body}) async {
-    print("doing test");
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
         'your channel id', 'your channel name',
         importance: Importance.max, priority: Priority.high);
