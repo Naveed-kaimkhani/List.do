@@ -1,9 +1,11 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do/AddTask.dart';
+import 'package:to_do/Pending_task.dart';
 import 'package:to_do/TaskTile.dart';
 import 'package:to_do/Themes.dart';
 import 'package:to_do/notification_services.dart';
@@ -25,6 +27,19 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   var notifyHelper;
+  List<Widget> item=[
+    
+    Icon(Icons.task,size: 30,),
+    Icon(Icons.done_all_sharp, size: 30,),
+    Icon(Icons.pending_actions,size: 30,),
+  ];
+  
+  List<Widget> names=[
+    
+    Text("All",style: TextStyle(fontSize: 15,color: Colors.white),),
+    Text("Completed",style: TextStyle(fontSize: 15,color: Colors.white),),
+    Text("Pending",style: TextStyle(fontSize: 15,color: Colors.white),),
+  ];
   @override
   void initState() {
     super.initState();
@@ -37,6 +52,23 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       bottomNavigationBar:CurvedNavigationBar(
+        height: 60,
+      //  index:ind;
+       // backgroundColor: bluish,
+        color: bluish,
+buttonBackgroundColor:Colors.transparent,
+backgroundColor: Colors.transparent,
+        items: names,
+        onTap: (index){
+            if(index==2){
+              setState(() {
+              Get.to(Pending_task());
+            });
+            }
+        },
+        ),
+     
       appBar: _Appbar(),
       body: Column(
         children: [
@@ -77,9 +109,7 @@ class _HomepageState extends State<Homepage> {
               itemCount: _taskController.tasklist.length,
               itemBuilder: (_, index) {
                 task taskk = _taskController.tasklist[index];
-                print(taskk.tojson());
                 if (taskk.repeat=='Daily') {
-                  print("checking for daily repeat");
                   DateTime date =
                       DateFormat.jm().parse(taskk.startTime.toString());
                   var myTime = DateFormat("HH:mm").format(date);
