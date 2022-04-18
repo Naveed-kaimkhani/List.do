@@ -52,22 +52,22 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       bottomNavigationBar:CurvedNavigationBar(
-        height: 60,
-      //  index:ind;
-       // backgroundColor: bluish,
-        color: bluish,
-buttonBackgroundColor:Colors.transparent,
-backgroundColor: Colors.transparent,
-        items: names,
-        onTap: (index){
-            if(index==2){
-              setState(() {
-              Get.to(Pending_task());
-            });
-            }
-        },
-        ),
+//        bottomNavigationBar:CurvedNavigationBar(
+//         height: 60,
+//       //  index:ind;
+//        // backgroundColor: bluish,
+//         color: bluish,
+// buttonBackgroundColor:Colors.transparent,
+// backgroundColor: Colors.transparent,
+//         items: names,
+//         onTap: (index){
+//             if(index==2){
+//               setState(() {
+//               Get.to(Pending_task());
+//             });
+//             }
+//         },
+//         ),
      
       appBar: _Appbar(),
       body: Column(
