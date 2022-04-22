@@ -5,19 +5,20 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do/AddTask.dart';
-import 'package:to_do/Pending_task.dart';
 import 'package:to_do/TaskTile.dart';
 import 'package:to_do/Themes.dart';
+import 'package:to_do/completed_task.dart';
 import 'package:to_do/notification_services.dart';
 import 'package:to_do/task.dart';
 import 'package:to_do/taskController.dart';
 import 'package:to_do/widgets/Button.dart';
-
+import 'Pending_taskk.dart';
 import 'ThemeServices.dart';
 import 'Themes.dart';
 
 DateTime selecteddate = DateTime.now();
 var _taskController = Get.put(taskController());
+  var Completed_task = <task>[];
 
 class Homepage extends StatefulWidget {
   Homepage({Key? key}) : super(key: key);
@@ -27,12 +28,6 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   var notifyHelper;
-  List<Widget> item=[
-    
-    Icon(Icons.task,size: 30,),
-    Icon(Icons.done_all_sharp, size: 30,),
-    Icon(Icons.pending_actions,size: 30,),
-  ];
   
   List<Widget> names=[
     
@@ -52,22 +47,27 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//        bottomNavigationBar:CurvedNavigationBar(
-//         height: 60,
-//       //  index:ind;
-//        // backgroundColor: bluish,
-//         color: bluish,
-// buttonBackgroundColor:Colors.transparent,
-// backgroundColor: Colors.transparent,
-//         items: names,
-//         onTap: (index){
-//             if(index==2){
-//               setState(() {
-//               Get.to(Pending_task());
-//             });
-//             }
-//         },
-//         ),
+       bottomNavigationBar:CurvedNavigationBar(
+        height: 60,
+      //  index:ind;
+       // backgroundColor: bluish,
+        color: bluish,
+buttonBackgroundColor:Colors.transparent,
+backgroundColor: Colors.transparent,
+        items: names,
+        onTap: (index){
+            if(index==1){
+              setState(() {
+              Get.to(completed_task());
+            });
+            }
+             if(index==2){
+              setState(() {
+              Get.to(Pending_task());
+            });
+            }
+        },
+        ),
      
       appBar: _Appbar(),
       body: Column(
@@ -160,7 +160,8 @@ class _HomepageState extends State<Homepage> {
                 }
               },
             );
-          })),
+          })
+          ),
         ],
       ),
     );
@@ -177,12 +178,6 @@ class _HomepageState extends State<Homepage> {
             size: 25),
         onTap: () {
           ThemeServices().SwitchTheme();
-          // notifyHelper.displayNotification(
-          //     title: "Theme Changed",
-          //     body: Get.isDarkMode
-          //         ? "Light mode activated"
-          //         : "Dark mode activated");
-          //notifyHelper.scheduledNotification();
         },
       ),
       actions: [
@@ -216,7 +211,9 @@ _showBottomSheet(BuildContext context, task taskk) {
               : _BottomSheetButton(
                   label: "Task Completed",
                   ontap: () {
+                    
                     _taskController.markedCompleted(taskk.id!);
+                    _taskController.Completed_task.add(taskk);
                     Get.back();
                   },
                   clr: bluish,
@@ -252,6 +249,7 @@ _BottomSheetButton({
   required BuildContext context,
 }) {
   return GestureDetector(
+
     onTap: ontap,
     child: Container(
       margin: EdgeInsets.symmetric(vertical: 4),

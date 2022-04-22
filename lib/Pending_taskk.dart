@@ -14,40 +14,42 @@ class Pending_task extends StatefulWidget {
 
 class _Pending_taskState extends State<Pending_task> {
   var _taskController = Get.put(taskController());
-
+task? taskk;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     body: Expanded(child: Obx(() {
+     body: Obx(() {
             return ListView.builder(
               itemCount: _taskController.tasklist.length,
               itemBuilder: (_, index) {
-                  return AnimationConfiguration.staggeredList(
+               if (_taskController.tasklist[index].isCompleted==0) {
+                taskk=_taskController.tasklist[index];
+               }
+              // else{
+                
+              // }
+                          return AnimationConfiguration.staggeredList(
                       position: index,
                       child: SlideAnimation(
                         child: FadeInAnimation(
                           child: Row(
                             children: [
-                              // GestureDetector(
-                              //   onTap: () {},
-                              //   child:if(_taskController.tasklist[index].isCompleted==0) {
-                              //      TaskTile(_taskController.tasklist[index]);
-                              //   }
-                              //       // } else {
-                                    //   Image.asset('assets/no.png');
-                                    //  }  
-                                    //   }
-                             // )
+                              GestureDetector(
+                                onTap: () {},
+                                child:TaskTile(taskk),  
+                                      
+                             ),
                               
                             ],
                           ),
                         ),
                       ));
+              
                 }
               
               
             );
-          })),
+          }),
     );
   }
 }

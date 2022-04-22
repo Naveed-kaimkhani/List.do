@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:to_do/DbHelper.dart';
 import 'package:to_do/SplashScree.dart';
 import 'package:to_do/ThemeServices.dart';
+import 'package:to_do/completed_task.dart';
 import 'Themes.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme:Themes.light,
       darkTheme: Themes.dark,
       themeMode: ThemeServices().theme ,
-      home: SplashScreen(),
+      home: completed_task(),
     );  
   }
 

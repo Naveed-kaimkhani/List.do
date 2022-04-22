@@ -9,10 +9,12 @@ class taskController extends GetxController {
   }
 
   var tasklist = <task>[].obs;
+  var Completed_task = <task>[].obs;
 
   Future<int?> addTask({task? Task}) async {
     print("task length is " + tasklist.length.toString());
     return await DbHelper.insert(Task);
+   
   }
 
   void getTasks() async {
