@@ -46,123 +46,125 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-       bottomNavigationBar:CurvedNavigationBar(
-        height: 60,
-      //  index:ind;
-       // backgroundColor: bluish,
-        color: bluish,
-buttonBackgroundColor:Colors.transparent,
-backgroundColor: Colors.transparent,
-        items: names,
-        onTap: (index){
-            if(index==1){
-              setState(() {
-              Get.to(completed_task());
-            });
-            }
-             if(index==2){
-              setState(() {
-              Get.to(Pending_task());
-            });
-            }
-        },
-        ),
-     
-      appBar: _Appbar(),
-      body: Column(
-        children: [
-          _addTaskBar(),
-          Container(
-            margin: EdgeInsets.only(top: 20, left: 20),
-            child: DatePicker(
-              DateTime.now(),
-              height: 100,
-              width: 80,
-              initialSelectedDate: DateTime.now(),
-              selectionColor: bluish,
-              selectedTextColor: Colors.white,
-              dateTextStyle: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-              monthTextStyle: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-              dayTextStyle: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-              onDateChange: (date) {
+    return SafeArea(
+      child: Scaffold(
+         bottomNavigationBar:CurvedNavigationBar(
+          height: 60,
+        //  index:ind;
+         // backgroundColor: bluish,
+          color: bluish,
+    buttonBackgroundColor:Colors.transparent,
+    backgroundColor: Colors.transparent,
+          items: names,
+          onTap: (index){
+              if(index==1){
                 setState(() {
-                  selecteddate = date;
-                });
-              },
+                Get.to(completed_task());
+              });
+              }
+               if(index==2){
+                setState(() {
+                Get.to(Pending_taskk());
+              });
+              }
+          },
+          ),
+       
+        appBar: _Appbar(),
+        body: Column(
+          children: [
+            _addTaskBar(),
+            Container(
+              margin: EdgeInsets.only(top: 20, left: 20),
+              child: DatePicker(
+                DateTime.now(),
+                height: 100,
+                width: 80,
+                initialSelectedDate: DateTime.now(),
+                selectionColor: bluish,
+                selectedTextColor: Colors.white,
+                dateTextStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+                monthTextStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+                dayTextStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+                onDateChange: (date) {
+                  setState(() {
+                    selecteddate = date;
+                  });
+                },
+              ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(child: Obx(() {
-            return ListView.builder(
-              itemCount: _taskController.tasklist.length,
-              itemBuilder: (_, index) {
-                task taskk = _taskController.tasklist[index];
-                if (taskk.repeat=='Daily') {
-                  DateTime date =
-                      DateFormat.jm().parse(taskk.startTime.toString());
-                  var myTime = DateFormat("HH:mm").format(date);
-                  notifyHelper.scheduledNotification(
-                      int.parse(myTime.toString().split(":")[0]),
-                      int.parse(myTime.toString().split(":")[1]),
-                      taskk);
-                  return AnimationConfiguration.staggeredList(
-                      position: index,
-                      child: SlideAnimation(
-                        child: FadeInAnimation(
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _showBottomSheet(
-                                      context, _taskController.tasklist[index]);
-                                },
-                                child:
-                                    TaskTile(_taskController.tasklist[index]),
-                              )
-                            ],
+            SizedBox(
+              height: 10,
+            ),
+            Expanded(child: Obx(() {
+              return ListView.builder(
+                itemCount: _taskController.tasklist.length,
+                itemBuilder: (_, index) {
+                  task taskk = _taskController.tasklist[index];
+                  if (taskk.repeat=='Daily') {
+                    DateTime date =
+                        DateFormat.jm().parse(taskk.startTime.toString());
+                    var myTime = DateFormat("HH:mm").format(date);
+                    notifyHelper.scheduledNotification(
+                        int.parse(myTime.toString().split(":")[0]),
+                        int.parse(myTime.toString().split(":")[1]),
+                        taskk);
+                    return AnimationConfiguration.staggeredList(
+                        position: index,
+                        child: SlideAnimation(
+                          child: FadeInAnimation(
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    _showBottomSheet(
+                                        context, _taskController.tasklist[index]);
+                                  },
+                                  child:
+                                      TaskTile(_taskController.tasklist[index]),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ));
-                }
-                if (taskk.date == DateFormat.yMd().format(selecteddate)) {
-                  return AnimationConfiguration.staggeredList(
-                      position: index,
-                      child: SlideAnimation(
-                        child: FadeInAnimation(
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _showBottomSheet(
-                                      context, _taskController.tasklist[index]);
-                                },
-                                child:
-                                    TaskTile(_taskController.tasklist[index]),
-                              )
-                            ],
+                        ));
+                  }
+                  if (taskk.date == DateFormat.yMd().format(selecteddate)) {
+                    return AnimationConfiguration.staggeredList(
+                        position: index,
+                        child: SlideAnimation(
+                          child: FadeInAnimation(
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    _showBottomSheet(
+                                        context, _taskController.tasklist[index]);
+                                  },
+                                  child:
+                                      TaskTile(_taskController.tasklist[index]),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ));
-                } else {
-                  return Container();
-                }
-              },
-            );
-          })
-          ),
-        ],
+                        ));
+                  } else {
+                    return Container();
+                  }
+                },
+              );
+            })
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -221,6 +223,8 @@ _showBottomSheet(BuildContext context, task taskk) {
               label: "Delete Task",
               ontap: () {
                 _taskController.delete(taskk);
+                _taskController.Completed_task.remove(taskk);
+                _taskController.pending_task.remove(taskk);
                 Get.back();
               },
               clr: Colors.red,

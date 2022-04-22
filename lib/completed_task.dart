@@ -57,8 +57,8 @@ class _completed_taskState extends State<completed_task> {
                     ),
                   ),
                   Container(
-                      height: 260,
-                      width: 200,
+                      height: 170,
+                      width: 150,
                       child: Image.asset('assets/c.png')),
                 ],
               ),
@@ -68,6 +68,7 @@ class _completed_taskState extends State<completed_task> {
             ),
           ),
           Padding(padding: EdgeInsets.only(top: 10)),
+          _taskController.Completed_task.length!=0?
           Expanded(
             child: Container(
               child:  Obx(() {
@@ -97,7 +98,17 @@ class _completed_taskState extends State<completed_task> {
               );
             }),
             ),
-          )
+          ):Container(child: Center(child: Column(
+            children: [
+              Container(
+                width: 250,
+                height: 250,
+                child: Image.asset('assets/nodata.png'),
+              ),
+              Text("No Completed Task",style: TextStyle(fontSize: 20,color: Colors.black),)
+
+            ],
+          )),)
         ],
       ),
       // Obx(() {

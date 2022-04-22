@@ -6,28 +6,27 @@ import 'package:to_do/task.dart';
 import 'package:to_do/TaskTile.dart';
 import 'package:to_do/taskController.dart';
 
-class Pending_task extends StatefulWidget {
-  Pending_task({Key? key}) : super(key: key);
+class Pending_taskk extends StatefulWidget {
+  Pending_taskk({Key? key}) : super(key: key);
 
   @override
-  State<Pending_task> createState() => _Pending_taskState();
+  State<Pending_taskk> createState() => _Pending_taskkState();
 }
 
-class _Pending_taskState extends State<Pending_task> {
+class _Pending_taskkState extends State<Pending_taskk> {
   var _taskController = Get.put(taskController());
   task? taskk;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-       // title: Text('Completed Tasks'),
-        backgroundColor: bluish,
-        leading: GestureDetector(
-          onTap: () => Get.back(),
-          child: Icon(Icons.arrow_back_ios, color: Colors.white),
-        )
-      ),
+          elevation: 0,
+          // title: Text('Completed Tasks'),
+          backgroundColor: bluish,
+          leading: GestureDetector(
+            onTap: () => Get.back(),
+            child: Icon(Icons.arrow_back_ios, color: Colors.white),
+          )),
       body: Column(
         children: [
           ClipPath(
@@ -47,7 +46,7 @@ class _Pending_taskState extends State<Pending_task> {
                           style: TextStyle(fontSize: 20, color: Colors.white),
                         ),
                         Text(
-                          "Completed Task",
+                          "Pending Task",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -57,25 +56,59 @@ class _Pending_taskState extends State<Pending_task> {
                     ),
                   ),
                   Container(
-                      height: 260,
-                      width: 200,
-                      child: Image.asset('assets/c.png')),
+                      height: 180,
+                      width: 180,
+                      child: Image.asset('assets/lo.png')),
                 ],
               ),
               color: bluish,
               width: double.infinity,
-              height: 220,
+              height: 250,
             ),
           ),
           Padding(padding: EdgeInsets.only(top: 10)),
-         _taskController.pending_task.length==0?
-         Container(
-           child: Center(
-             child: Text("No Pending Task",style: TextStyle(fontSize: 20,color: Colors.black),),
-           ),
-         ):
-      
-         Container(),
+          _taskController.pending_task.length != 0
+              ? Expanded(
+                  child: Container(
+                    child: Obx(() {
+                      return ListView.builder(
+                          itemCount: _taskController.pending_task.length,
+                          itemBuilder: (_, index) {
+                            return AnimationConfiguration.staggeredList(
+                                position: index,
+                                child: SlideAnimation(
+                                  child: FadeInAnimation(
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {},
+                                          child: TaskTile(_taskController
+                                              .pending_task[index]),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ));
+                          });
+                    }),
+                  ),
+                )
+              : Container(
+                  child: Center(
+                      child: Column(
+                    children: [
+                      Container(
+                        width: 250,
+                        height: 250,
+                        child: Image.asset('assets/nodata.png'),
+                      ),
+                      Text(
+                        "No Pending Task",
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                      )
+                    ],
+                  )),
+                )
         ],
       ),
       // Obx(() {
