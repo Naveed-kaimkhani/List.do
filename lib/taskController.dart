@@ -10,10 +10,13 @@ class taskController extends GetxController {
 
   var tasklist = <task>[].obs;
   var Completed_task = <task>[].obs;
+  var pending_task = <task>[].obs;
 
   Future<int?> addTask({task? Task}) async {
+    pending_task.add(Task!);
     print("task length is " + tasklist.length.toString());
     return await DbHelper.insert(Task);
+    
    
   }
 
@@ -27,8 +30,12 @@ class taskController extends GetxController {
     getTasks();
   }
 
-  void markedCompleted(int id) async {
+  void markedCompleted(int id,task taskk) async {
     await DbHelper.update(id);
+  Completed_task.add(taskk);
+  pending_task.remove(taskk);
+  
+
     getTasks();
   }
 }

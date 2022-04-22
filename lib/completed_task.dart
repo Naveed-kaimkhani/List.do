@@ -10,15 +10,24 @@ class completed_task extends StatefulWidget {
   completed_task({Key? key}) : super(key: key);
 
   @override
-  State<completed_task> createState() => _Pending_taskState();
+  State<completed_task> createState() => _completed_taskState();
 }
 
-class _Pending_taskState extends State<completed_task> {
+class _completed_taskState extends State<completed_task> {
   var _taskController = Get.put(taskController());
   task? taskk;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+       // title: Text('Completed Tasks'),
+        backgroundColor: bluish,
+        leading: GestureDetector(
+          onTap: () => Get.back(),
+          child: Icon(Icons.arrow_back_ios, color: Colors.white),
+        )
+      ),
       body: Column(
         children: [
           ClipPath(
@@ -55,35 +64,40 @@ class _Pending_taskState extends State<completed_task> {
               ),
               color: bluish,
               width: double.infinity,
-              height: 300,
+              height: 250,
             ),
           ),
-           Obx(() {
-            return ListView.builder(
-              itemCount: _taskController.Completed_task.length,
-              itemBuilder: (_, index) {
-                          return AnimationConfiguration.staggeredList(
-                      position: index,
-                      child: SlideAnimation(
-                        child: FadeInAnimation(
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child:TaskTile(_taskController.Completed_task[index]),  
-                                      
-                             ),
-                              
-                            ],
+          Padding(padding: EdgeInsets.only(top: 10)),
+          Expanded(
+            child: Container(
+              child:  Obx(() {
+              return ListView.builder(
+                itemCount: _taskController.Completed_task.length,
+                itemBuilder: (_, index) {
+                            return AnimationConfiguration.staggeredList(
+                        position: index,
+                        child: SlideAnimation(
+                          child: FadeInAnimation(
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {},
+                                  child:TaskTile(_taskController.Completed_task[index]),  
+                                        
+                               ),
+                                
+                              ],
+                            ),
                           ),
-                        ),
-                      ));
-              
-                }
-              
-              
-            );
-          }),
+                        ));
+                
+                  }
+                
+                
+              );
+            }),
+            ),
+          )
         ],
       ),
       // Obx(() {

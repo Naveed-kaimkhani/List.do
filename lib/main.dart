@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme:Themes.light,
       darkTheme: Themes.dark,
       themeMode: ThemeServices().theme ,
-      home: completed_task(),
+      home: SplashScreen(),
     );  
   }
 

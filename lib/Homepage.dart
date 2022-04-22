@@ -212,8 +212,7 @@ _showBottomSheet(BuildContext context, task taskk) {
                   label: "Task Completed",
                   ontap: () {
                     
-                    _taskController.markedCompleted(taskk.id!);
-                    _taskController.Completed_task.add(taskk);
+                    _taskController.markedCompleted(taskk.id!,taskk);
                     Get.back();
                   },
                   clr: bluish,
