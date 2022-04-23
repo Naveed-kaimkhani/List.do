@@ -57,8 +57,8 @@ class _completed_taskState extends State<completed_task> {
                     ),
                   ),
                   Container(
-                      height: 170,
-                      width: 150,
+                      height: 190,
+                      width: 170,
                       child: Image.asset('assets/c.png')),
                 ],
               ),

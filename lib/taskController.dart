@@ -16,7 +16,6 @@ class taskController extends GetxController {
     pending_task.add(Task!);
     print("task length is " + tasklist.length.toString());
     return await DbHelper.insert(Task);
-    
    
   }
 
@@ -34,7 +33,6 @@ class taskController extends GetxController {
     await DbHelper.update(id);
   Completed_task.add(taskk);
   pending_task.remove(taskk);
-  
 
     getTasks();
   }
